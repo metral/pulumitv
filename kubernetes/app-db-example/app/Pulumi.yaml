@@ -1,0 +1,3 @@
+name: 3-tier-webapp-flask
+description: Deploys a Flask app on Kubernetes that uses AWS RDS Postgres
+runtime: nodejs
