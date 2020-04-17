@@ -7,11 +7,26 @@ const name = pulumi.getProject();
 const tags = { "Project": "3-tier-webapp", "Owner": "pulumi"};
 
 // Createa a VPC with public & private subnets across all AZs.
-const vpc = new awsx.ec2.Vpc(name, {
-    cidrBlock: "172.16.0.0/16",
-    numberOfAvailabilityZones: "all",
-    tags: { "Name": name, ...tags },
-});
+const vpc = new awsx.ec2.Vpc(name,
+    {
+        cidrBlock: "172.16.0.0/16",
+        numberOfAvailabilityZones: "all",
+        tags: { "Name": name, ...tags },
+    },
+    /*
+    {
+        transformations: [(args) => {
+            if (args.type === "aws:ec2/vpc:Vpc" || args.type === "aws:ec2/subnet:Subnet") {
+                return {
+                    props: args.props,
+                    opts: pulumi.mergeOptions(args.opts, { ignoreChanges: ["tags"] })
+                }
+            }
+            return undefined;
+        }],
+    },
+    */
+);
 
 // Create an EKS cluster with the default VPC, and default node group with 
 // two t2.medium node instances.
