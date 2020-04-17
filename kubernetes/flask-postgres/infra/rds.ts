@@ -7,6 +7,7 @@ export type RdsDatabaseOptions = {
     securityGroupId: pulumi.Input<string>;
     replicas: pulumi.Input<number>;
     instanceClass: pulumi.Input<string>;
+    tags: pulumi.Input<{[key: string]: pulumi.Input<string>}>;
 };
 
 const pulumiComponentNamespace: string = "pulumi:RdsDatabase";
@@ -43,6 +44,7 @@ export class RdsDatabase extends pulumi.ComponentResource {
             masterPassword: this.password,
             storageEncrypted: true,
             vpcSecurityGroupIds: [args.securityGroupId],         // Must be able to communicate with EKS nodes.
+            tags: args.tags,
         });
 
         const instancesToCreate = [];
@@ -57,6 +59,7 @@ export class RdsDatabase extends pulumi.ComponentResource {
                     engine: "aurora-postgresql",
                     engineVersion: "11.6",
                     instanceClass: args.instanceClass,
+                    tags: args.tags,
                 },
             );
         }

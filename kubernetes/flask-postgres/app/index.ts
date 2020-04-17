@@ -3,7 +3,7 @@ import * as app from "./app";
 import {config} from "./config";
 
 // Create a k8s provider for the remote GKE cluster.
-const provider = new k8s.Provider("gkeProvider", {
+const provider = new k8s.Provider("k8sProvider", {
     kubeconfig: config.kubeconfig,
     namespace: config.appsNamespaceName,
 });
